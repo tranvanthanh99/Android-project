@@ -17,11 +17,12 @@ public class HttpGetRequest extends AsyncTask<String, Void, String> {
         String stringUrl = params[0];
         String result;
         String inputLine;
+        HttpURLConnection connection = null;
         try {
             //Create a URL object holding our url
             URL myUrl = new URL(stringUrl);
             //Create a connection
-            HttpURLConnection connection =(HttpURLConnection)
+            connection =(HttpURLConnection)
                     myUrl.openConnection();
             //Set methods and timeouts
             connection.setRequestMethod(REQUEST_METHOD);
@@ -49,6 +50,9 @@ public class HttpGetRequest extends AsyncTask<String, Void, String> {
         catch(IOException e){
             e.printStackTrace();
             result = null;
+        } finally {
+            if (connection != null)
+                connection.disconnect();
         }
         return result;
     }
